@@ -21,12 +21,15 @@ try {
     const SLACK_MESSAGE = core.getInput('SLACK_MESSAGE');
     const instance = axios.create({
         baseURL: `https://slack.com/api`,
-        headers: { 'Authorization': 'basic ' + SLACK_TOKEN }
+        headers: { 'Authorization': 'Bearer ' + SLACK_TOKEN }
     });
     instance.post(`/chat.postMessage?channel=general&text=${SLACK_MESSAGE}&pretty=1`)
         .then(response => {
             return response.data;
         })
+        .catch(Error e){
+
+        }
 } catch (error) {
     core.setFailed(error.message);
 }
