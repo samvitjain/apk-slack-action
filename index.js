@@ -47,6 +47,22 @@ try {
             console.log(response.data);
             return response.data;
         })
+    axios({
+        method: "POST", url: "https://slack.com/api/files.upload?channels=random&pretty=1&initial_comment=LOL", data: form_data, headers: {
+            'Authorization': 'Bearer ' + SLACK_TOKEN,
+            "Content-Type": "multipart/form-data"
+        }
+    }).then(response => {
+        if (response.status === 200) {
+            console.log("Success, firm added")
+            console.log(response.data)
+        } else {
+            console.log("Error occurred")
+        }
+    }
+    ).catch(e => {
+        console.log(e)
+    })
 
 
 } catch (error) {
