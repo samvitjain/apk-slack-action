@@ -36,27 +36,7 @@ try {
     //FILE POST
     const form_data = new FormData();
     console.log(FILE_PATH);
-     fs.readFile(FILE_PATH, 'utf8', function (err, data) {
-
-        // Display the file content 
-        console.log(data);
-    });
-     fs.readFile(FILE_PATH, 'utf8', function (err, data) {
-
-        // Display the file content 
-        console.log(data);
-    });
-
     form_data.append("file", fs.createReadStream(FILE_PATH));
-    // const request_config = {
-    //     method: "post",
-    //     url: url,
-    //     headers: {
-    //         "Authorization": "Bearer " + access_token,
-    //         "Content-Type": "multipart/form-data"
-    //     },
-    //     data: form_data
-    // };
     const postFileInstance = axios.create({
         baseURL: `https://slack.com/api`,
         headers: { 'Authorization': 'Bearer ' + SLACK_TOKEN, 'Content-Type': 'multipart/form-data' }
@@ -64,6 +44,7 @@ try {
     postFileInstance.post(`/files.upload?channels=random&pretty=1&initial_comment=file from slack`, form_data)
         .then(response => {
             console.log(response.status);
+            console.log(response.data);
             return response.data;
         })
 
