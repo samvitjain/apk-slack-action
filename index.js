@@ -16,12 +16,17 @@ const axios = require('axios').default;
 // }
 
 
-try{
+try {
     const SLACK_TOKEN = core.getInput('SLACK_TOKEN');
+    const SLACK_MESSAGE = core.getInput('SLACK_MESSAGE');
     const instance = axios.create({
-        baseURL: 'https://slack.com/api/chat.postMessage?channel=general&text=Hello Again&pretty=1',
-        headers: {'Authorization': 'basic '+ SLACK_TOKEN}
-      });
-} catch(error){
+        baseURL: `https://slack.com/api`,
+        headers: { 'Authorization': 'basic ' + SLACK_TOKEN }
+    });
+    instance.post(`/chat.postMessage?channel=general&text=${SLACK_MESSAGE}&pretty=1`)
+        .then(response => {
+            return response.data;
+        })
+} catch (error) {
     core.setFailed(error.message);
 }

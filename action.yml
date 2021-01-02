@@ -9,6 +9,10 @@ inputs:
     description: 'Slack Channel'
     required: true
     default: ''
+  SLACK_MESSAGE:
+    description: 'Slack Message'
+    required: false
+    default: ''
   FILE_PATH:
     description: 'Path of file to be shared'
     required: true
