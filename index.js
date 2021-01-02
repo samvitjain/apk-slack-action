@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const axios = require('axios').default;
+const fs = require('fs');
 
 // try {
 //   // `who-to-greet` input defined in action metadata file
@@ -19,16 +20,42 @@ const axios = require('axios').default;
 try {
     const SLACK_TOKEN = core.getInput('SLACK_TOKEN');
     const SLACK_MESSAGE = core.getInput('SLACK_MESSAGE');
+    const FILE_PATH = core.getInput('FILE_PATH');
     const instance = axios.create({
         baseURL: `https://slack.com/api`,
         headers: { 'Authorization': 'Bearer ' + SLACK_TOKEN }
     });
-    instance.post(`/chat.postMessage?channel=general&text=${SLACK_MESSAGE}&pretty=1`)
+
+    instance.post(`/chat.postMessage?channel=general&text=${github.event_name}&pretty=1`)
         .then(response => {
             console.log(response.status);
             return response.data;
 
         })
+
+    //FILE POST
+    const form_data = new FormData();
+    form_data.append("file", fs.createReadStream(FILE_PATH));
+    // const request_config = {
+    //     method: "post",
+    //     url: url,
+    //     headers: {
+    //         "Authorization": "Bearer " + access_token,
+    //         "Content-Type": "multipart/form-data"
+    //     },
+    //     data: form_data
+    // };
+    const postFileInstance = axios.create({
+        baseURL: `https://slack.com/api`,
+        headers: { 'Authorization': 'Bearer ' + SLACK_TOKEN, 'Content-Type': 'multipart/form-data' }
+    });
+    postFileInstance.post(`/files.upload?channels=random&pretty=1&initial_comment=file from slack`,form_data)
+        .then(response => {
+            console.log(response.status);
+            return response.data;
+        })
+
+
 } catch (error) {
     core.setFailed(error.message);
 }
