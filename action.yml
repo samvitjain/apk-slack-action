@@ -1,0 +1,21 @@
+name: 'Share on Slack'
+description: 'File share on Slack'
+inputs:
+  SLACK_TOKEN:  # id of input
+    description: 'Slack Token'
+    required: true
+    default: ''
+  SLACK_CHANNEL:
+    description: 'Slack Channel'
+    required: true
+    default: ''
+  FILE_PATH:
+    description: 'Path of file to be shared'
+    required: true
+    default: ''
+# outputs:
+#   time: # id of output
+#     description: 'The time we greeted you'
+runs:
+  using: 'node12'
+  main: 'index.js'
