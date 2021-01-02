@@ -26,7 +26,7 @@ try {
         headers: { 'Authorization': 'Bearer ' + SLACK_TOKEN }
     });
 
-    instance.post(`/chat.postMessage?channel=general&text=${github.event_name}&pretty=1`)
+    instance.post(`/chat.postMessage?channel=general&text=HelloFromSlack&pretty=1`)
         .then(response => {
             console.log(response.status);
             return response.data;
@@ -35,6 +35,8 @@ try {
 
     //FILE POST
     const form_data = new FormData();
+    console.log(FILE_PATH);
+    console.log(fs.readFile(FILE_PATH));
     form_data.append("file", fs.createReadStream(FILE_PATH));
     // const request_config = {
     //     method: "post",
